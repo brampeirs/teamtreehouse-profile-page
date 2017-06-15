@@ -1,0 +1,16 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: #edeff0;
+}
+
+#profile, #points, #badges {
+  background: #fff;
+  margin-top: 2em;
+  margin-bottom: 2em;
+  padding: 1.5em;
+  border-radius: 3px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+}
