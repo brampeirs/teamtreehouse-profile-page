@@ -2,10 +2,11 @@ var xhr = new XMLHttpRequest();
 xhr.onreadystatechange = function() {
   if(xhr.readyState === 4 && xhr.status === 200) {
     var profileData = JSON.parse(xhr.responseText);
-    $('#profile').append('<h1>Hello ' + profileData.name  + '</h1>');
-    $('#profile').append('<img src="' + profileData.gravatar_url + '" alt="profile picture">');
+    $('.profile_data').html('<h2>' + profileData.name  + '</h2>');
     
-    console.log(profileData.points);
+    $('.profile_picture').html('<img src="' + profileData.gravatar_url + '" alt="profile picture">');
+    
+    /*
     //Loopen over points object
     var pointsHTML = '<ul class="points">';
     for(var key in profileData.points) {
@@ -20,7 +21,7 @@ xhr.onreadystatechange = function() {
       badgesHTML += '<li>' + profileData.badges[i].name + '</li>';
     }
     badgesHTML += '</ul>'
-    $('#badges').append(badgesHTML);
+    $('#badges').append(badgesHTML);*/
   }
 };
 xhr.open('GET', 'https://teamtreehouse.com/brampeirs.json');
