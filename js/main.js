@@ -1,9 +1,13 @@
+
+  
+
+
 var url = "https://teamtreehouse.com/brampeirs.json";
 
 $.getJSON(url, function(profileData){
   
   var totalPoints = 0
-  var $pointsBarItem = 
+
   //Profile
   $('.profile_data').html('<h2>' + profileData.name  + '</h2>');
   $('.profile_picture').html('<img src="' + profileData.gravatar_url + '" alt="profile picture">');
@@ -38,8 +42,7 @@ $.getJSON(url, function(profileData){
       default:
           pointsBarItemColor = "#d4d9dd";
       }
-      console.log("total:" + totalPoints + " " + key + ": " + value + " :" + totalPoints/value)
-      pointsBar  +=  '<span style="width: ' + value / totalPoints * 100 + '%; background-color: ' + pointsBarItemColor + '"></span>';
+      pointsBar  +=  '<span data-toggle="tooltip" data-html="true"  data-title="' + key + '" style="width: ' + value / totalPoints * 100 + '%; background-color: ' + pointsBarItemColor + '"></span>';      
     }    
     
     pointsHTML += '<li class="col-sm-6 col-lg-3">';
@@ -61,6 +64,9 @@ $.getJSON(url, function(profileData){
   }
   badgesHTML += '</ul>'
   $('#badges').append(badgesHTML);*/
+  
+  //Initialise tooltips Placed at the end because tooltips added dynamicaly
+  $('[data-toggle="tooltip"]').tooltip();
   
 });
 
