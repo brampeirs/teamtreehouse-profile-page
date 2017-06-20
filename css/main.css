@@ -81,3 +81,27 @@ body {
   /*border-bottom: 1px dashed #d4d9dd;*/
 }
 
+.disclaimer {
+    background: #f9fafa;
+    border-top: 1px solid #e8ebed;
+    margin-left: -1.7em;
+    margin-right: -1.7em;
+    margin-bottom: -1.7em;
+    margin-top: 1em;
+    padding: 1.7em;
+    border-radius: 0 0 3px 3px; /* value must be same as .box border radius */
+}
+
+.disclaimer p {
+  margin-bottom: 0;  
+  margin-left: 10px;
+  display: inline-block;
+}
+
+.disclaimer .fa-stack {
+  vertical-align: inherit;
+}
+
+.disclaimer i, .disclaimer p {
+  color: #7b8b8e;
+}

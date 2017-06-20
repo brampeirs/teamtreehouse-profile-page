@@ -111,6 +111,18 @@ function displayPoints(oProfileData){
   
   pointsHTML += '</div>'; /* row */
   
+  pointsHTML += '<div class="disclaimer">';
+  
+pointsHTML += '<span class="fa-stack fa-lg">';
+pointsHTML += '  <i class="fa fa-circle-o fa-stack-2x"></i>';
+pointsHTML += '  <i class="fa fa-info fa-stack-1x fa-inverse"></i>';
+pointsHTML += '</span>';
+
+  
+  pointsHTML +=   '<p>Points are earned whenever you take an important action on Treehouse.<br>';
+  pointsHTML +=   'Learn more about when and how points are earned.</p>';
+  pointsHTML += '</div>';
+  
   $('#points').html(pointsHTML);
 }
 
