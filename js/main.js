@@ -1,71 +1,130 @@
+/*
+  0. Global Variables
+  1. Get Request
+    2. Display Profile Data
+    3. Display Points
+    4. Display Badges
+*/
 
-  
-
-
+/* 0. Global Variables */
+var skillColors = {
+  CSS:                 "#3079AB",
+  HTML:                "#39ADD1",
+  JavaScript:          "#c25975",
+  "Development Tools": "#637a91"
+};
 var url = "https://teamtreehouse.com/brampeirs.json";
+var totalPointsHTML = '';
 
-$.getJSON(url, function(profileData){
+function sortObj(sortObj, sortDirection, sortValue){
+  var sortArray = [];
   
-  var totalPoints = 0
-
-  //Profile
-  $('.profile_data').html('<h2>' + profileData.name  + '</h2>');
-  $('.profile_picture').html('<img src="' + profileData.gravatar_url + '" alt="profile picture">');
-
-  //Loopen over points object
-  var pointsHTML = '<ul class="row">';
-  var pointsBar = '<div id="pointsBar">';
-  $.each(profileData.points, function(key, value){
-    if(key.toUpperCase() === "TOTAL") {
-      totalPoints = value;
-      return true;
-    } //skip iteration
-    
-    if (value !== 0) {
-      var pointsBarItemColor = "#ddd";
-      switch(key.toUpperCase()) {
-        case "CSS":
-          pointsBarItemColor = "#3079AB";
-          break;
-      case "HTML":
-          pointsBarItemColor = "#39ADD1";
-          break;
-      case "JAVASCRIPT":
-          pointsBarItemColor = "#c25975";
-          break;
-      case "HTML":
-          pointsBarItemColor = "#f00";
-          break;    
-      case "DEVELOPMENT TOOLS":
-          pointsBarItemColor = "#637a91";
-          break;        
-      default:
-          pointsBarItemColor = "#d4d9dd";
-      }
-      pointsBar  +=  '<span data-toggle="tooltip" data-html="true"  data-title="' + key + '" style="width: ' + value / totalPoints * 100 + '%; background-color: ' + pointsBarItemColor + '"></span>';      
-    }    
-    
-    pointsHTML += '<li class="col-6 col-lg-3">';
-    pointsHTML += '<h3>' + value.toLocaleString() +'</h3>';
-    pointsHTML += '<p class="topic">'  + key + '</p>';
-    pointsHTML += '</li>';
+  //create two dimensional array for sorting
+  $.each(sortObj, function(key, value){   
+    sortArray.push([key, value]);        
   });
-  pointsBar += '</div>'
   
-  pointsHTML += '</ul>';
-  $('.profile_data').append(pointsBar);
+  //sort two dimensional array 
+  sortArray.sort(function(a, b){
+    if(sortDirection.toLowerCase() === 'desc') {
+      if(sortValue.toLowerCase() === 'value') {
+        return b[1] - a[1]; 
+      } else {
+        return b[0] - a[0]; 
+      }      
+    } else {
+      if(sortValue.toLowerCase() === 'value') {
+        return a[1] - b[1]; 
+      } else {
+        return a[0] - b[0]; 
+      }
+    }    
+  });
+  
+  //create object of sorted array
+  var resultObj = {};
+  for (var i = 0; i < sortArray.length; ++i) {
+    resultObj[sortArray[i][0]] = sortArray[i][1];
+  }    
+  return resultObj;
+}
+
+function displayProfileData(oProfileData){
+  var profileDataHTML = '';
+  var skillColor = '';
+  var totalPoints = oProfileData.points.total;
+  var oPointsSorted = {};
+  
+  // Profile Picture 
+  profileDataHTML += '<div class="profile_picture">';
+  profileDataHTML += '<img src="' + oProfileData.gravatar_url + '" alt="profile picture">';
+  profileDataHTML += '</div>';
+  
+  // Profile Name 
+  profileDataHTML += '<div class="profile_data">';
+  profileDataHTML += '<h2>' + oProfileData.name  + '</h2>';
+  profileDataHTML += '</div>';
+  
+  $('#profile').html(profileDataHTML);  
+  
+  // Points Bar 
+  profileDataHTML = '<div id="pointsBar">';
+  
+  //Loop sorted points object
+  oPointsSorted = sortObj(oProfileData.points, 'desc', 'value');
+  $.each(oPointsSorted, function(key, value){
+    if (key.toLowerCase() === 'total' || value === 0) {return true;} //skip iteration    
+    skillColor = "#d4d9dd";
+    if(skillColors.hasOwnProperty(key)) {
+      skillColor = skillColors[key];
+    }          
+    profileDataHTML  +=  '<span data-toggle="tooltip" data-html="true"  data-title="' + key + '" style="width: ' + value / totalPoints * 100 + '%; background-color: ' + skillColor + '"></span>';      
+  });  
+  profileDataHTML += '</div>';  
+  
+  $('.profile_data').append(profileDataHTML);
+}
+
+function displayPoints(oProfileData){
+  var pointsHTML = '';
+  var oPointsSorted = {};
+  
+  pointsHTML =  '<div class="row">';
+  pointsHTML +=   '<div class="col-12">';
+  pointsHTML +=     '<h2>' + oProfileData.points.total.toLocaleString() + '</h2>';
+  pointsHTML +=     '<p class="total_points">Total Points</p>';
+  pointsHTML +=   '</div>';
+  pointsHTML += '</div>';
+  
+  //Loop sorted points object
+  pointsHTML += '<div class="row">';
+  
+    oPointsSorted = sortObj(oProfileData.points, 'desc', 'value');
+    $.each(oPointsSorted, function(key, value){
+      if (key.toLowerCase() === 'total') {return true;} //skip iteration 
+
+      pointsHTML += '<div class="col-6 col-lg-3">';
+      pointsHTML +=   '<h3>' + value.toLocaleString() +'</h3>';
+      pointsHTML +=   '<p class="skill">' + key + '</p>';
+      pointsHTML += '</div>';
+    });
+  
+  pointsHTML += '</div>'; /* row */
+  
   $('#points').html(pointsHTML);
-    
-  /*
-  //Loopen over badges array
-  var badgesHTML = '<ul class="badges">';
-  for(var i = 0; i < profileData.badges.length; i ++) {
-    badgesHTML += '<li>' + profileData.badges[i].name + '</li>';
-  }
-  badgesHTML += '</ul>'
-  $('#badges').append(badgesHTML);*/
+}
+
+
+// 1. Get Request 
+$.getJSON(url, function(response){
   
-  //Initialise tooltips Placed at the end because tooltips added dynamicaly
+  // 2. Display Profile Data 
+  displayProfileData(response);
+  
+  // 3. Display Points 
+  displayPoints(response); 
+  
+  // Initialise bootstrap tooltips: placed at the end because tooltips added dynamicaly (see points bar) 
   $('[data-toggle="tooltip"]').tooltip();
   
 });

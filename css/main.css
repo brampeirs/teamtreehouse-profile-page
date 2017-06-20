@@ -1,3 +1,7 @@
+/*********************************/
+/*         GENERAL               */
+/*********************************/
+
 * {
   box-sizing: border-box;
 }
@@ -6,7 +10,7 @@ body {
   background: #edeff0;
 }
 
-#profile, #points, #badges {
+.box {
   background: #fff;
   margin-top: 2em;
   margin-bottom: 2em;
@@ -15,12 +19,16 @@ body {
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
 }
 
+
+
 /*********************************/
 /*         PROFILE               */
 /*********************************/
+
 #profile {
   display: flex;
   flex-direction: column;
+  text-align: center;
 }
 
 .profile_picture img {
@@ -29,8 +37,12 @@ body {
   border-radius: 50%;
 }
 
-.profile_picture, .profile_data {
-  text-align: center;
+#pointsBar {
+  width: 100%;
+  height: 8px;
+  background: #ddd;
+  display: flex;
+  flex-direction: row;
 }
 
 @media screen and (max-width: 679px) {
@@ -39,8 +51,7 @@ body {
   }
 }
 
-@media screen and (min-width: 680px) {
-  
+@media screen and (min-width: 680px) {  
   #profile {
     flex-direction: row;
   }
@@ -52,23 +63,21 @@ body {
   }    
 }
 
+
+
 /*********************************/
 /*         POINTS                */
 /*********************************/
-#points ul{
-  list-style: none;  
-  margin: 0;
-  padding: 0;
+
+.total_points {  
+  font-weight: 600;
+  padding-bottom: 25px;
+  margin-bottom: 25px;
+  border-bottom: 1px solid #eee;
 }
 
-.topic {
+.total_points, .skill {
   color: #a9b3bb;
+  /*border-bottom: 1px dashed #d4d9dd;*/
 }
 
-#pointsBar {
-  width: 100%;
-  height: 8px;
-  background: #ddd;
-  display: flex;
-  flex-direction: row;
-}
