@@ -58,10 +58,7 @@ body {
 #points ul{
   list-style: none;  
   margin: 0;
-}
-
-#points ul li {
-
+  padding: 0;
 }
 
 .topic {

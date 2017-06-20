@@ -45,7 +45,7 @@ $.getJSON(url, function(profileData){
       pointsBar  +=  '<span data-toggle="tooltip" data-html="true"  data-title="' + key + '" style="width: ' + value / totalPoints * 100 + '%; background-color: ' + pointsBarItemColor + '"></span>';      
     }    
     
-    pointsHTML += '<li class="col-xs-6 col-lg-3">';
+    pointsHTML += '<li class="col-6 col-lg-3">';
     pointsHTML += '<h3>' + value.toLocaleString() +'</h3>';
     pointsHTML += '<p class="topic">'  + key + '</p>';
     pointsHTML += '</li>';
